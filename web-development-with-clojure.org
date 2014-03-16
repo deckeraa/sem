@@ -1,0 +1,128 @@
+#+TITLE:
+#+LATEX_HEADER: \usepackage{fancyhdr}
+#+LATEX_HEADER: \usepackage{amsmath}
+#+LATEX_HEADER: \usepackage{fullpage}
+# #+LATEX_HEADER: \usepackage{indentfirst}
+#+OPTIONS: toc:nil
+#+BIND: org-export-latex-title-command ""
+#+LATEX: \setcounter{secnumdepth}{-1}
+#+LATEX: \setlength{\parindent}{0in}
+#+LATEX: \addtolength{\parskip}{\baselineskip}
+
+* Abstract
+This article will focus on how using Clojure for web development will impact the software development process.
+No preference will be given to a specific model, although, as will be demonstrated, Clojure holds the most
+benefit for a methodology centered on iteration such as Agile.
+
+* Clojure
+** What is Clojure
+Clojure is a general-purpose programming langauge that is a dialect of Lisp.
+The main differentiating aspect of Clojure from other Lisps is that it compiles to Java bytecode,
+and can therefore run on any Java Virtual Machine (JVM).
+It can also be compiled to JavaScript as well as to bytecode targeting the CLR (the .NET runtime engine).
+This feature alone makes Clojure quite portable as the JVM and JavaScript are widely available platforms.
+
+Clojure is a dynamically typed language that, though compiled, is highly interactive.
+According to the language webpage, "Every feature supported by Clojure is supported at runtime." \cite{Clojure:2014}
+
+The ability to compile the same Clojure code to Java bytecode and JavaScript makes an integrated codebase via
+code sharing between client-side and server-side code sharing possible. One example is that of input validation;
+for security purposes validation must be performed on the server side; though it is also beneficial to validate on the
+client side in order to provide improve latency and to diminish calls to the server.
+In the past, validation code was written in both Java and JavaScript, and the validation logic needed to be kept synced between
+the two implementations. Now, Clojure makes it possible to satisfy DRY (Don't Repeat Yourself) principles while ensuring a uniform
+input validation.
+
+** Notable Features of Clojure
+*** Interactivity via the REPL
+Perhaps the most salient feature of Clojure as well as the one having the most impact upon the software engineering process
+is the highly interactive nature of Clojure programming via the Read-Eval-Print-Loop (REPL).
+In many traditional programming langauges like C, COBOL, or Java, it is necessary to compile the program in its entirety before
+running the executable process for testing purposes.
+Any change to the source code necessitates recompiling the affected objects and restarting the process.
+
+With Clojure, the process being executed can be modified on the fly, drastically reducing time between testing iterations.
+A programmer and graphic designer by the name of Bret Victor touted the benefits of instantaneous feedback in his 2012 CUSEC talk
+called "Inventing on Principle"\cite{Victor}.
+One of his main ideas was an code editor with which one could modify a video-game one was programming in real-time.
+Shortly after Victor gave his speech, another programmer by the name of Chris Granger implemented the idea using Clojure,
+which serves to show the power of Clojure with regards to run-time modification.
+
+For teams using Agile methodology, this ability is highly relevant; if large iterations are valued,
+why not achieve more small iterations?
+
+Like many other Lisps, Clojure has good integration with Emacs.
+Using a library called cider, code can be typed and evaluated inside of an Emacs buffer,
+then automatically executed on another thread running the Clojure code.
+This setup turns the task of changing a method in a program from one that requires a re-compile and a
+restart on the child process to one that only requires a keystroke to see the new code running.
+
+*** Higher-Order Functions and Functional Programming
+
+*** Concurrency
+
+*** Lazy Evaluation
+
+*** Cheap Data-Structures
+One notable feature of Clojure over other Lisps is the native implementation of several
+diverse and sundry data-structures such as lists, vectors, sets, and maps.
+All of these data-structures are immutable and can be declared in the code very concisely.
+Thus they are "cheap" in the typographical sense.
+Any programmer who has had to work with the Standard Template Library (STL) of C++ will be sure to appreciate these.
+
+TODO: code example
+
+*** Macros
+
+** Downside to using Clojure
+Their are three major downsides to using Clojure for web development.
+
+The first major downside is the relatively young age of Clojure as a langauge.
+Many of the libraries and frameworks are still in alpha or beta, and in some cases
+documentation is scarce or incomplete.
+Code also happens to become obsolete rapidly; though continuous integration testing will
+eliminate that issue as bugs due to API changes can be dealt with immediately as they arise.
+Some Clojure libraries do not currently integrate with ClojureScript, and ClojureScript is not
+currently self-supporting, since it uses the Google Closure compiler.
+These issues should be fixed over time.
+
+The second major downside is that Clojure runs on the Java Virtual Machine.
+While this greatly extends the reach of Clojure and provides it with a vast array of well-tested libraries,
+it also brings with it the requisite classpath issues.
+Different JVMs will also affect code performance; for example, the icedtea-jdk running on the author's
+GNU/Linux box sometimes experiences "out-of-memory" bugs and substantial delays even though ample memory is available.
+However, most companies will likely have someone able to deal with Java problems and programmers with Java experience
+are fairly easy to find.
+
+The third major downside of using Clojure is the relative scarcity of Clojure programmers compared to other more traditional languages.
+The result of this is that Clojure developers will be harder to hire and will need a higher salary;
+on the other hand, since Clojure is not widely taught in universities, programmers using Clojure are more likely to be
+personally motivated.
+In addition, Clojure programmers will likely have better mathematical understanding due to functional programmings' mathematical roots,
+and should be able to code faster using features such as the REPL and higher-order functions.
+
+* Libraries for Web Development
+** Clutch for NoSQL Database Interaction
+** Hiccup for Handling HTML
+** ClojureScript for Client-Side Scripting
+
+* Deploying Clojure
+** CloudAnt
+** Heroku
+
+* Conclusion
+
+
+* References
+
+\begin{thebibliography}{99}
+\bibitem[Clojure, 2014]{Clojure:2014}
+http://clojure.org
+
+\bibitem[Granger, 2014]{Granger}
+http://www.chris-granger.com/2012/02/26/connecting-to-your-creation/
+
+\bibitem[Bret Victor,2012]{Victor}
+CUSEC 2012. Accessed at http://vimeo.com/36579366
+
+\end{thebibliography}
