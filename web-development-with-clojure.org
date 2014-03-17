@@ -74,6 +74,8 @@ TODO: code example
 
 *** Macros
 
+*** Library and Dependency Management
+
 ** Downside to using Clojure
 Their are three major downsides to using Clojure for web development.
 
@@ -103,8 +105,47 @@ and should be able to code faster using features such as the REPL and higher-ord
 
 * Libraries for Web Development
 ** Clutch for NoSQL Database Interaction
+Clutch is a library for interacting with Apache CouchDB in Clojure \cite{Clutch}.
+It allows for high-level interaction with couchdb and there is experimental development with
+modeling couchdb as an object that can support common Clojure higher-order functions like \textt seq \textrm and \textt reduce \textrm.
+Be warned though, the API is still young and subject to change.
+As the libraries README.md on Github states: At the moment, you'll have
+to look at the source or introspect the docs once you've loaded Clutch
+up to get around the API. Proper API documentation (via autodoc or
+marginalia) coming soon."
+
+Another option for interacting with couchdb is clj-http.
+Clj-http is a lower-level library for interacting via http.
+It is much more mature then Clutch.
+Because CouchDB is RESTful and uses http in lieu of SQL the full functionality of
+CouchDB is available using clj-http.
+
+The map and reduce functions used in CouchDB views are typically written in JavaScript.
+There is a Clojure View Server that comes with Clutch that allows map and reduce functions to
+be written in Clojure.
+The downside to this approach is that prominent hosted DBaaS providers such as CloudAnt do not have
+the Clojure View Server installed, so using a the Clojure View Server creates an additional IT burden.
+
+However, ClojureScript compiles to JavaScript, so the map and reduce functions can be written in ClojureScript,
+then compiled before being written to the view document.
+Unfortunately, this method does not allow for easy interaction with CouchDB as current compile times are lengthy (above five seconds).
+Using the Futon utility that comes with CouchDB and developing views natively using JavaScript in a temporary view remains
+a more convincing option at the time of this writing.
+
 ** Hiccup for Handling HTML
+Hiccup is a domain-specific langauge for creating HTML from Clojure data structures.
+It contains the `html` macro that takes a specifically-formatted vector and generates
+a string of HTML corresponding to that data.
+#+begin_src clojure
+  (spit "table.html"
+        (html [:html [:table (map #(vector :tr
+                                           [:td (first %)]
+                                           [:td (second %)])
+                                  {"apple" 0.50 "banana" 0.75})]]))
+#+end_src
+
 ** ClojureScript for Client-Side Scripting
+lein trampoline cljsbuild repl-rhino
 
 * Deploying Clojure
 ** CloudAnt
@@ -124,5 +165,11 @@ http://www.chris-granger.com/2012/02/26/connecting-to-your-creation/
 
 \bibitem[Bret Victor,2012]{Victor}
 CUSEC 2012. Accessed at http://vimeo.com/36579366
+
+\bibitem[Clutch, 2014]{Clutch}
+https://github.com/clojure-clutch/clutch\
+
+\bibitem[IBM, 2014]{IBM}
+http://www.ibm.com/developerworks/library/j-couchdb-clojure/index.html#toggle
 
 \end{thebibliography}
