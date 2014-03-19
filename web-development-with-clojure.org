@@ -75,6 +75,54 @@ TODO: code example
 *** Macros
 
 *** Library and Dependency Management
+While Clojure does not technically come with a build tool, the /de
+facto/ standard among Clojure developers is the excellent Leiningen
+tool.  Leiningen can either be installed via a package manager or by
+downloading the =lein= script from the project page. \cite{lein}
+
+Leiningen acts as a package manager for a Clojure project by
+automatically handling dependencies and compilation.
+
+Assuming =lein= is installed the machine, running =lein new
+my-project= at the command prompt
+will generate a directory structure for a new Clojure project named
+=my-project=. Note that there is also a templating system for generation
+of projects; that is outside the scope of this document.
+
+Running =lein repl= inside a project directory will start up a REPL
+session.
+
+Leiningen really shines when it comes to using Clojure libraries.  Each
+project directory structure created by Leiningen has a =project.clj=
+file which is a Clojure file that uses the =defproject= macro to
+define a project. See the following sample =project.clj= file:
+
+#+begin_src clojure
+(defproject couchdb-from-clojure "0.1.0-SNAPSHOT"
+  :description "FIXME: write description"
+  :url "http://example.com/FIXME"
+  :license {:name "Eclipse Public License"
+            :url "http://www.eclipse.org/legal/epl-v10.html"}
+  :dependencies [[org.clojure/clojure "1.5.1"]
+                 [com.ashafa/clutch "0.4.0-RC1"]
+                 [slingshot "0.10.3"]
+                 [clj-http "0.9.0"]
+                 [org.clojure/data.json "0.2.4"]
+                 [org.clojure/clojurescript "0.0-1450"]
+                 [hiccup "1.0.5"]])
+#+end_src
+
+In this project, named "couchdb-from-clojure",
+serveral libraries are used and listed as dependencies, for example
+=clj-http= version 0.9.0 is used.
+Once the project file is written, running =lein deps= in the project
+directory causes Leiningen to fetch and configure the libraries listed.
+Be warned that any currently running REPLs in the project will need
+restarted before they see newly fetched libraries on the classpath.
+
+The main impact of Leiningen on the software development process is
+that is speeds and eases changes to library versions and selection;
+this should be a benefit for Agile development.
 
 ** Downside to using Clojure
 Their are three major downsides to using Clojure for web development.
@@ -132,10 +180,19 @@ Unfortunately, this method does not allow for easy interaction with CouchDB as c
 Using the Futon utility that comes with CouchDB and developing views natively using JavaScript in a temporary view remains
 a more convincing option at the time of this writing.
 
-** Hiccup for Handling HTML
+** Compojure for HTTP Routing
+
+** Hiccup for HTML Generation
 Hiccup is a domain-specific langauge for creating HTML from Clojure data structures.
-It contains the `html` macro that takes a specifically-formatted vector and generates
+It contains the =html= macro that takes a specifically-formatted vector and generates
 a string of HTML corresponding to that data.
+
+For example, imagine that you are building an e-commerce application that sells fruit,
+and you have a map of fruit prices: ={"apple" 0.50 "banana" 0.75}=.
+The following code uses =map= to create a list of table-row vectors
+i.e. =([:tr [:td "banana"] [:td 0.75]] [:tr [:td "apple"] [:td 0.5]])=
+When =html= is used on this list it automatically expands the sequence to generate valid html.
+The =spit= function outputs the resulting html string to "table.html".
 #+begin_src clojure
   (spit "table.html"
         (html [:html [:table (map #(vector :tr
@@ -144,15 +201,78 @@ a string of HTML corresponding to that data.
                                   {"apple" 0.50 "banana" 0.75})]]))
 #+end_src
 
+Table.html:
+#+begin_src file
+<html><table>
+<tr><td>banana</td><td>0.75</td></tr>
+<tr><td>apple</td><td>0.5</td></tr>
+</table></html>
+#+end_src
+(Linebreaks have been added to the output file for readability).
+
+Forms and from elements are also supported.
+
+If one wished to dynamically generate all the web content for a site hiccup would certainly ease
+the process. Of course, one must take into account server load and related issues that come with dynamically-generated
+content. It should also be noted that dynamically generating all content may lead to maintenance issues;
+as well as require UI and web designers to read code.
+However, using the Compojure library to decompose requests can greatly ease the maintenance problem.
+Template files can also still be used, with generated code inserted inside programatically.
+
 ** ClojureScript for Client-Side Scripting
 lein trampoline cljsbuild repl-rhino
 
 * Deploying Clojure
-** CloudAnt
 ** Heroku
 
 * Conclusion
 
+
+* Appendix 1
+** Extended Database Example
+In the following example a Couch database is made and populated,
+a view is written to query the database, and the view is then used
+to generate an html file with the database contents in an html table.
+Inspiratation for this example was found in the Couchdb Guide on view. \cite{CouchDB}
+#+begin_src clojure
+;; Define database name
+(def fruitdb "http://localhost:5984/fruit")
+
+;; Create the database
+(clutch/create-database fruitdb)
+
+;; Populate the database with some prices
+(clutch/with-db fruitdb
+        (clutch/bulk-update
+         [{:fruit "apple"
+           :price 0.50}
+          {:fruit "banana"
+           :price 0.75}
+          {:fruit "grapes"
+           :price 1.20}
+          {:fruit "watermelon"
+           :price 1.00}
+          ]))
+
+;; Define a view to get fruits and price
+(clutch/with-db fruitdb
+  (clutch/save-view
+   "fruit-doc"
+   (clutch/view-server-fns :cljs
+                           {:view1
+                            {:map (fn [doc]
+                                    (js/emit (aget doc "fruit") (aget doc "price")))}})))
+
+;; Query the view and parse into html
+(spit "table.html"
+      (let [price-map
+            (reduce #(assoc %1 (:key %2) (:value %2)) {}
+                    (clutch/get-view fruitdb "fruit-doc" "view1"))]
+        (html [:html [:table (map #(vector :tr
+                                           [:td (first %)]
+                                           [:td (second %)])
+                                  price-map)]])))
+#+end_src
 
 * References
 
@@ -171,5 +291,11 @@ https://github.com/clojure-clutch/clutch\
 
 \bibitem[IBM, 2014]{IBM}
 http://www.ibm.com/developerworks/library/j-couchdb-clojure/index.html#toggle
+
+\bibitem[CouchDB,2014]{CouchDB}
+http://guide.couchdb.org/draft/tour.html
+
+\bibitem[Leiningen,2014]{lein}
+https://github.com/technomancy/leiningen
 
 \end{thebibliography}
