@@ -85,6 +85,61 @@ Any programmer who has had to work with the Standard Template Library (STL) of C
 TODO: code example
 
 *** Macros
+Macros are what sets apart Lisps from most other languages.
+Many languages support finite levels of abstraction, after which an external
+preprocessor is needed to abstract programming constructs.
+Consider the C language for example:
+
+#+begin_src c
+  switch(some_input)
+  {
+   case INPUT_CASE_1:
+     input_handler_1(some_input);
+     break;
+   case INPUT_CASE_2:
+     input_handler_2(some_input);
+     break;
+   case INPUT_CASE_3:
+     input_handler_3(some_input);
+     break;
+  }
+#+end_src
+
+It would be convenient to be able to define a new syntax for mapping constants to functions.
+However, C's macro engine is basically just =sed=, only less powerful, and thus cannot do that.
+The programmer is left to other methods such as auto-generating code using an external program or
+using code editor functionality e.g. copy and paste.
+This is less than optimal for obvious reasons.
+
+Consider another common case, where it is desirable for the purposes of debugging to have each line of code printed as it
+executes. As with the runtime of many languages, compiled =C= code has absolutely no concept of what =C= code is.
+Thus such a task is impossible. With Clojure it is quite simple:
+
+#+begin_src clojure
+(defmacro dbg [code]
+  `(do (print "Executing " '~code)
+       ~code))
+
+(macroexpand '(dbg (* 3 2)))
+(dbg (* 3 2))
+#+end_src
+
+=defmacro= defines a macro, in this case the macro is called =dbg= and takes one argument called =code=.
+It then generates a list that represents Clojure code.
+The syntax quote (`) denotes a quasi-quoting mechanism that makes everything literal except tokens prefaced by a tilde (~).
+
+The result of evaluating a macro can be observed using the macroexpand macro.
+Evaluating =(macroexpand '(dbg (* 3 2)))= yields
+=(do (clojure.core/print Executing  (quote (* 3 2))) (* 3 2))=.
+
+When =(dbg (* 3 2))= is evaluated, the =dbg= macro is expanded by running =(* 3 2)= through the =dbg= macro as
+defined by =defmacro=. The resulting code is then evaluated as normal.
+This grants the langauge the ability to re-define its own evaluation at runtime, which removes the limit on abstraction,
+rendering external pre-processors unnecessary.
+
+The affects the software process by simplifying the software stack. Everything needed to satisfy DRY principles is
+available in the language; all abstractions can be handled in the code, and the code base can safely be built from the bottom up.
+For a much more detailed discussion of the use of macros, see _On Lisp_ by Paul Graham.
 
 *** Library and Dependency Management
 While Clojure does not technically come with a build tool, the /de
