@@ -10,6 +10,18 @@
 #+LATEX: \addtolength{\parskip}{\baselineskip}
 
 * Abstract
+Web development currently consists of several distinct technologies;
+often server-side code is written in C# or Java while the client-side
+code is written in JavaScript. Clojure is a new language that can unify
+client-side and server-side. A dialect of Lisp, Clojure compiles both to
+Java bytecode, for the server-side, and to JavaScript, for the
+client-side. Clojure can thus leverage all the power of the existing
+Java and JavaScript libraries, while adding its own libraries for a
+uniform functional programming paradigm. This as well as lazy evaluation
+provides for easier use of concurrency. Clojure also provides a
+live-coding experience, where running processess can be modified
+on-the-fly to match changes being made to the code.
+
 This article will focus on how using Clojure for web development will impact the software development process.
 No preference will be given to a specific model, although, as will be demonstrated, Clojure holds the most
 benefit for a methodology centered on iteration such as Agile.
@@ -124,7 +136,7 @@ The main impact of Leiningen on the software development process is
 that is speeds and eases changes to library versions and selection;
 this should be a benefit for Agile development.
 
-** Downside to using Clojure
+** Downsides to using Clojure
 Their are three major downsides to using Clojure for web development.
 
 The first major downside is the relatively young age of Clojure as a langauge.
@@ -155,7 +167,7 @@ and should be able to code faster using features such as the REPL and higher-ord
 ** Clutch for NoSQL Database Interaction
 Clutch is a library for interacting with Apache CouchDB in Clojure \cite{Clutch}.
 It allows for high-level interaction with couchdb and there is experimental development with
-modeling couchdb as an object that can support common Clojure higher-order functions like \textt seq \textrm and \textt reduce \textrm.
+modeling couchdb as an object that can support common Clojure higher-order functions like =seq= and =reduce=.
 Be warned though, the API is still young and subject to change.
 As the libraries README.md on Github states: At the moment, you'll have
 to look at the source or introspect the docs once you've loaded Clutch
@@ -181,6 +193,68 @@ Using the Futon utility that comes with CouchDB and developing views natively us
 a more convincing option at the time of this writing.
 
 ** Compojure for HTTP Routing
+Compojure is a routing library that can be used to easily modularize a web page using Clojure.
+Compojure is built on top of the Ring web server.
+To start with Compojure, use lein to create a new project: =lein new compojure hello-world=.
+This uses the =compojure= template to create a =project.clj= with all the necessary dependencies for
+using Compojure.
+Then =cd ./hello-world= and run =lein ring server-headless=. This commands Leiningen to start the Ring web server in
+headless mode. Leiningen will report what port Ring is running on; typically Ring runs on port 3000 unless it is already taken.
+
+A typical Compojure setup will have two namespaces: one in =routes.clj= and
+one in =views.clj=
+Examine the following =routes.clj= file, adapted from an example project from the Compojure project \cite{compojure-sample}.
+#+begin_src clojure
+(ns compojure.example.routes
+  (:use compojure.core
+        compojure.example.views
+        [hiccup.middleware :only (wrap-base-url)])
+  (:require [compojure.route :as route]
+            [compojure.handler :as handler]
+            [compojure.response :as response]))
+
+(defroutes main-routes
+  (GET "/hello/:id" [id foo] (index-page id foo))
+  (route/resources "/")
+  (route/not-found "Page not found"))
+
+(def app
+  (-> (handler/site main-routes)
+      (wrap-base-url)))
+#+end_src
+
+The first s-expression (everything in the =(ns ...)=) declares the namespace
+and loads requisite libraries. The second s-expression =(defroutes ...)= defines the
+routes that are defined for http request.
+For example, =(GET "/hello/:id" [id foo :as r] (index-page id foo r))= means that any
+HTTP GET asking for anything in the /hello/ route takes the request and returns the result of
+the index-page function. For example, and HTTP GET on http://localhost:3000/hello/%20try?foo=bar
+will return the result of =(index-page " try" "bar")=.
+This is defined in =views.clj=:
+
+#+begin_src clojure
+(ns compojure.example.views
+  (:use [hiccup core page]))
+
+(defn index-page [id foo]
+  (html5
+    [:head
+      [:title "Hello World"]
+      (include-css "/css/style.css")]
+    [:body
+     [:h1 "Hello World " id " " foo]]))
+#+end_src
+
+Here =index-page= is defined as a function with two parameters, =id= and =foo=.
+An HTML string is returned using the =html5= macro, which is part of the Hiccup library
+detailed in the next section.
+
+The impact of the Compojure library on the software development process is that it serves as an interace between an
+HTTP API and functions inside of code. Combined with a REPL-enabled editor like Emacs with CIDER, it enables very rapid
+prototyping, testing, and debugging of the web application. It also provides a very compact high-level dispatch for HTTP requests.
+Although not covered in the scope of this paper, there is a destructuring syntax that is part of Clojure that provides for a very
+intuitive and terse parsing of requests.
+
 
 ** Hiccup for HTML Generation
 Hiccup is a domain-specific langauge for creating HTML from Clojure data structures.
@@ -210,7 +284,7 @@ Table.html:
 #+end_src
 (Linebreaks have been added to the output file for readability).
 
-Forms and from elements are also supported.
+Forms and form elements are also supported.
 
 If one wished to dynamically generate all the web content for a site hiccup would certainly ease
 the process. Of course, one must take into account server load and related issues that come with dynamically-generated
@@ -274,8 +348,6 @@ Inspiratation for this example was found in the Couchdb Guide on view. \cite{Cou
                                   price-map)]])))
 #+end_src
 
-* References
-
 \begin{thebibliography}{99}
 \bibitem[Clojure, 2014]{Clojure:2014}
 http://clojure.org
@@ -297,5 +369,9 @@ http://guide.couchdb.org/draft/tour.html
 
 \bibitem[Leiningen,2014]{lein}
 https://github.com/technomancy/leiningen
+
+\bibitem[Compojure,2014]{compojure-sample}
+https://github.com/weavejester/compojure-example
+
 
 \end{thebibliography}
