@@ -8,6 +8,41 @@
 #+LATEX: \setcounter{secnumdepth}{-1}
 #+LATEX: \setlength{\parindent}{0in}
 #+LATEX: \addtolength{\parskip}{\baselineskip}
+#+LATEX: \setlength{\headsep}{20pt} %so page numbers dont clash
+#+LATEX: \pagestyle{myheadings} %page numbers
+
+\begin{titlepage}
+
+\newcommand{\HRule}{\rule{\linewidth}{0.5mm}} % Defines a new command for the horizontal lines, change thickness here
+
+\center % Center everything on the page
+\linespread{2} % Line spacing
+\textsc{\LARGE University of Wisconsin Platteville}\\[1.5cm] % Name of your university/college
+\textsc{\Large SE411}\\[0.5cm] % Major heading such as course name
+\textsc{\large Senior Seminar}\\[0.5cm] % Minor heading such as course title
+\HRule \\[0.4cm]
+{\huge \bfseries Web Development With Clojure}\\[0.4cm] % Title of your document
+\HRule \\[1.5cm]
+
+\begin{minipage}{0.4\textwidth}
+\center
+\large
+Aaron Decker % Your name
+\\
+{\large \today}\\[3cm] % Date, change the \today to a set date if you want to be precise
+\end{minipage}
+%\begin{minipage}{0.4\textwidth}
+%\begin{flushright} \large
+%\emph{Supervisor:} \\
+%Dr. James \textsc{Smith} % Supervisor's Name
+%\end{flushright}
+%\end{minipage}\\[4cm]
+
+%\includegraphics{Logo}\\[1cm] % Include a department/university logo - this will require the graphicx package
+
+\vfill % Fill the rest of the page with whitespace
+
+\end{titlepage}
 
 * Abstract
 Web development currently consists of several distinct technologies;
@@ -22,98 +57,102 @@ provides for easier use of concurrency. Clojure also provides a
 live-coding experience, where running processess can be modified
 on-the-fly to match changes being made to the code.
 
-This article will focus on how using Clojure for web development will impact the software development process.
-No preference will be given to a specific model, although, as will be demonstrated, Clojure holds the most
-benefit for a methodology centered on iteration such as Agile.
+# This article will focus on how using Clojure for web development will impact the software development process.
+# No preference will be given to a specific model, although, as will be demonstrated, Clojure holds the most
+# benefit for a methodology centered on iteration such as Agile.
 
-* Clojure
+* Clojure: an Overview
 ** What is Clojure
 Clojure is a general-purpose programming langauge that is a dialect of Lisp.
 The main differentiating aspect of Clojure from other Lisps is that it compiles to Java bytecode,
 and can therefore run on any Java Virtual Machine (JVM).
-It can also be compiled to JavaScript as well as to bytecode targeting the CLR (the .NET runtime engine).
+It can also be compiled to JavaScript as well as to bytecode targeting the CLR (.NET runtime engine).
 This feature alone makes Clojure quite portable as the JVM and JavaScript are widely available platforms.
 
 Clojure is a dynamically typed language that, though compiled, is highly interactive.
 According to the language webpage, "Every feature supported by Clojure is supported at runtime." \cite{Clojure:2014}
 
 The ability to compile the same Clojure code to Java bytecode and JavaScript makes an integrated codebase via
-code sharing between client-side and server-side code sharing possible. One example is that of input validation;
-for security purposes validation must be performed on the server side; though it is also beneficial to validate on the
-client side in order to provide improve latency and to diminish calls to the server.
+code sharing between client-side and server-side code possible. One use case is input validation.
+For security purposes validation must be performed on the server side, though it is also beneficial to validate on the
+client side in order to decrease latency and the number of calls to the server.
 In the past, validation code was written in both Java and JavaScript, and the validation logic needed to be kept synced between
-the two implementations. Now, Clojure makes it possible to satisfy DRY (Don't Repeat Yourself) principles while ensuring a uniform
+the two implementations. Clojure makes it possible to satisfy DRY (Don't Repeat Yourself) principles while ensuring uniform
 input validation.
 
 ** Notable Features of Clojure
 *** Interactivity via the REPL
 Perhaps the most salient feature of Clojure as well as the one having the most impact upon the software engineering process
 is the highly interactive nature of Clojure programming via the Read-Eval-Print-Loop (REPL).
-In many traditional programming langauges like C, COBOL, or Java, it is necessary to compile the program in its entirety before
-running the executable process for testing purposes.
+In many traditional programming langauges like C, COBOL, or Java it is necessary to compile the program in its entirety before
+running the executable process.
 Any change to the source code necessitates recompiling the affected objects and restarting the process.
 
 With Clojure, the process being executed can be modified on the fly, drastically reducing time between testing iterations.
 A programmer and graphic designer by the name of Bret Victor touted the benefits of instantaneous feedback in his 2012 CUSEC talk
 called "Inventing on Principle"\cite{Victor}.
-One of his main ideas was an code editor with which one could modify a video-game one was programming in real-time.
+One of his main ideas was an code editor with which a programmer could modify, in real-time, a video-game being programmed.
 Shortly after Victor gave his speech, another programmer by the name of Chris Granger implemented the idea using Clojure,
 which serves to show the power of Clojure with regards to run-time modification.
 
-For teams using Agile methodology, this ability is highly relevant; if large iterations are valued,
-why not achieve more small iterations?
+For teams using Agile methodology, this ability is highly relevant.
+Iterations done by individual programmers can be done much faster.
 
 Like many other Lisps, Clojure has good integration with Emacs.
-Using a library called cider, code can be typed and evaluated inside of an Emacs buffer,
+Using a library called cider, code can be written and evaluated inside of an Emacs buffer,
 then automatically executed on another thread running the Clojure code.
 This setup turns the task of changing a method in a program from one that requires a re-compile and a
-restart on the child process to one that only requires a keystroke to see the new code running.
+restart on the child process to one that only requires a keystroke to see the effects of new code.
 
-*** Higher-Order Functions and Functional Programming
+# *** Higher-Order Functions and Functional Programming
 
-*** Concurrency
+# *** Concurrency
 
-*** Lazy Evaluation
+# *** Lazy Evaluation
 
-*** Cheap Data-Structures
-One notable feature of Clojure over other Lisps is the native implementation of several
-diverse and sundry data-structures such as lists, vectors, sets, and maps.
-All of these data-structures are immutable and can be declared in the code very concisely.
-Thus they are "cheap" in the typographical sense.
-Any programmer who has had to work with the Standard Template Library (STL) of C++ will be sure to appreciate these.
+# *** Cheap Data-Structures
+# One notable feature of Clojure over other Lisps is the native implementation of several
+# diverse and sundry data-structures such as lists, vectors, sets, and maps.
+# All of these data-structures are immutable and can be declared in the code very concisely.
+# Thus they are "cheap" in the typographical sense.
+# Any programmer who has had to work with the Standard Template Library (STL) of C++ will be sure to appreciate these.
 
-TODO: code example
+# TODO: code example
 
 *** Macros
-Macros are what sets apart Lisps from most other languages.
+# Macros are what sets apart Lisps from most other languages.
+Macros are what makes Lisp fully aware of its own existence.
 Many languages support finite levels of abstraction, after which an external
 preprocessor is needed to abstract programming constructs.
-Consider the C language for example:
+This is not the case with Clojure, it can modify its own evaluation behavior.
+Sometimes Lisp is referred to as the "programmable programming language".
+# Consider the C language for example:
+#
+# #+begin_src c
+#   switch(some_input)
+#   {
+#    case INPUT_CASE_1:
+#      input_handler_1(some_input);
+#      break;
+#    case INPUT_CASE_2:
+#      input_handler_2(some_input);
+#      break;
+#    case INPUT_CASE_3:
+#      input_handler_3(some_input);
+#      break;
+#   }
+# #+end_src
 
-#+begin_src c
-  switch(some_input)
-  {
-   case INPUT_CASE_1:
-     input_handler_1(some_input);
-     break;
-   case INPUT_CASE_2:
-     input_handler_2(some_input);
-     break;
-   case INPUT_CASE_3:
-     input_handler_3(some_input);
-     break;
-  }
-#+end_src
+# It would be convenient to be able to define a new syntax for mapping constants to functions.
+# However, C's macro engine is basically just =sed=, only less powerful, and thus cannot do that.
+# The programmer is left to other methods such as auto-generating code using an external program or
+# using code editor functionality e.g. copy and paste.
+# This is less than optimal for obvious reasons.
 
-It would be convenient to be able to define a new syntax for mapping constants to functions.
-However, C's macro engine is basically just =sed=, only less powerful, and thus cannot do that.
-The programmer is left to other methods such as auto-generating code using an external program or
-using code editor functionality e.g. copy and paste.
-This is less than optimal for obvious reasons.
-
-Consider another common case, where it is desirable for the purposes of debugging to have each line of code printed as it
+Consider the common case where it is desirable for the purposes of debugging to have each line of code printed as it
 executes. As with the runtime of many languages, compiled =C= code has absolutely no concept of what =C= code is.
-Thus such a task is impossible. With Clojure it is quite simple:
+Thus such a task is impossible. With Clojure it is quite simple.
+Consider the follwing code:
 
 #+begin_src clojure
 (defmacro dbg [code]
@@ -131,6 +170,8 @@ The syntax quote (`) denotes a quasi-quoting mechanism that makes everything lit
 The result of evaluating a macro can be observed using the macroexpand macro.
 Evaluating =(macroexpand '(dbg (* 3 2)))= yields
 =(do (clojure.core/print Executing  (quote (* 3 2))) (* 3 2))=.
+Essentially the macro takes code as an argument and makes other code.
+While functions are very powerful in Lisp, macros allow a programmer to define a whole new syntax for evaluation.
 
 When =(dbg (* 3 2))= is evaluated, the =dbg= macro is expanded by running =(* 3 2)= through the =dbg= macro as
 defined by =defmacro=. The resulting code is then evaluated as normal.
@@ -139,10 +180,10 @@ rendering external pre-processors unnecessary.
 
 The affects the software process by simplifying the software stack. Everything needed to satisfy DRY principles is
 available in the language; all abstractions can be handled in the code, and the code base can safely be built from the bottom up.
-For a much more detailed discussion of the use of macros, see _On Lisp_ by Paul Graham.
+For a much more detailed discussion of the use of macros, see _On Lisp_ by Paul Graham \cite{on-lisp}.
 
 *** Library and Dependency Management
-While Clojure does not technically come with a build tool, the /de
+While Clojure does not technically come with an integrated build system, the /de
 facto/ standard among Clojure developers is the excellent Leiningen
 tool.  Leiningen can either be installed via a package manager or by
 downloading the =lein= script from the project page. \cite{lein}
@@ -154,13 +195,14 @@ Assuming =lein= is installed the machine, running =lein new
 my-project= at the command prompt
 will generate a directory structure for a new Clojure project named
 =my-project=. Note that there is also a templating system for generation
-of projects; that is outside the scope of this document.
+of projects.
+# ; that is outside the scope of this document.
 
 Running =lein repl= inside a project directory will start up a REPL
 session.
 
-Leiningen really shines when it comes to using Clojure libraries.  Each
-project directory structure created by Leiningen has a =project.clj=
+Leiningen excels in the field of library management.
+Each project directory structure created by Leiningen has a =project.clj=
 file which is a Clojure file that uses the =defproject= macro to
 define a project. See the following sample =project.clj= file:
 
@@ -188,7 +230,7 @@ Be warned that any currently running REPLs in the project will need
 restarted before they see newly fetched libraries on the classpath.
 
 The main impact of Leiningen on the software development process is
-that is speeds and eases changes to library versions and selection;
+that is speeds and streamlines changes to library versions and selection;
 this should be a benefit for Agile development.
 
 ** Downsides to using Clojure
@@ -197,16 +239,16 @@ There are three major downsides to using Clojure for web development.
 The first major downside is the relatively young age of Clojure as a langauge.
 Many of the libraries and frameworks are still in alpha or beta, and in some cases
 documentation is scarce or incomplete.
-Code also happens to become obsolete rapidly; though continuous integration testing will
+Code also happens to become obsolete rapidly, though continuous integration testing will
 eliminate that issue as bugs due to API changes can be dealt with immediately as they arise.
-Some Clojure libraries do not currently integrate with ClojureScript, and ClojureScript is not
-currently self-supporting, since it uses the Google Closure compiler.
+Some Clojure libraries do not currently integrate with ClojureScript,
+and ClojureScript does not support all the features of Clojure such as good concurrency support yet.
 These issues should be fixed over time.
 
-Related to the young age of Clojure is the extremely young age of ClojureScript.
-It does not, at the time of this writing, support all the features of Clojure, such as concurrency support
-or ability to compile itself, since it uses the Google Closure (no relation to Clojure) compiler.
-This should also be fixed as ClojureScript matures.
+# Related to the young age of Clojure is the extremely young age of ClojureScript.
+# It does not, at the time of this writing, support all the features of Clojure, such as concurrency support
+# or ability to compile itself, since it uses the Google Closure (no relation to Clojure) compiler.
+# This should also be fixed as ClojureScript matures.
 
 The second major downside is that Clojure runs on the Java Virtual Machine.
 While this greatly extends the reach of Clojure and provides it with a vast array of well-tested libraries,
@@ -221,30 +263,30 @@ The result of this is that Clojure developers will be harder to hire and will ne
 on the other hand, since Clojure is not widely taught in universities, programmers using Clojure are more likely to be
 personally motivated.
 In addition, Clojure programmers will likely have better mathematical understanding due to functional programmings' mathematical roots,
-and should be able to code faster using features such as the REPL and higher-order functions.
+and should be able to code much faster using features such as instantaneous feedback via the REPL and higher-order functions.
 
-* Libraries for Web Development
+* Clojure and Web Development
 ** Clutch for NoSQL Database Interaction
 Clutch is a library for interacting with Apache CouchDB in Clojure \cite{Clutch}.
-It allows for high-level interaction with couchdb and there is experimental development with
-modeling couchdb as an object that can support common Clojure higher-order functions like =seq= and =reduce=.
+It allows for high-level interaction with CouchDB and there is experimental development with
+modeling CouchDB as an object that can support common Clojure higher-order functions like =seq= and =reduce=.
 Be warned though, the API is still young and subject to change.
-As the libraries README.md on Github states: At the moment, you'll have
+As the library's README.md on Github states: "At the moment, you'll have
 to look at the source or introspect the docs once you've loaded Clutch
 up to get around the API. Proper API documentation (via autodoc or
 marginalia) coming soon."
 
-Another option for interacting with couchdb is clj-http.
-Clj-http is a lower-level library for interacting via http.
+Another option for interacting with CouchDB is clj-http.
+clj-http is a lower-level library for interacting via http.
 It is much more mature then Clutch.
-Because CouchDB is RESTful and uses http in lieu of SQL the full functionality of
+Because CouchDB is RESTful and uses HTTP in lieu of SQL the full functionality of
 CouchDB is available using clj-http.
 
 The map and reduce functions used in CouchDB views are typically written in JavaScript.
 There is a Clojure View Server that comes with Clutch that allows map and reduce functions to
 be written in Clojure.
 The downside to this approach is that prominent hosted DBaaS providers such as CloudAnt do not have
-the Clojure View Server installed, so using a the Clojure View Server creates an additional IT burden.
+the Clojure View Server installed, so using the Clojure View Server creates an additional IT burden.
 
 However, ClojureScript compiles to JavaScript, so the map and reduce functions can be written in ClojureScript,
 then compiled before being written to the view document.
@@ -285,7 +327,7 @@ Examine the following =routes.clj= file, adapted from an example project from th
 
 The first s-expression (everything in the =(ns ...)=) declares the namespace
 and loads requisite libraries. The second s-expression =(defroutes ...)= defines the
-routes that are defined for http request.
+routes that are valid upon HTTP request.
 For example, =(GET "/hello/:id" [id foo :as r] (index-page id foo r))= means that any
 HTTP GET asking for anything in the /hello/ route takes the request and returns the result of
 the index-page function. For example, and HTTP GET on http://localhost:3000/hello/%20try?foo=bar
@@ -310,9 +352,9 @@ An HTML string is returned using the =html5= macro, which is part of the Hiccup 
 detailed in the next section.
 
 The impact of the Compojure library on the software development process is that it serves as an interace between an
-HTTP API and functions inside of code. Combined with a REPL-enabled editor like Emacs with CIDER, it enables very rapid
+HTTP API and functions inside of code. Combined with a REPL-enabled editor like Emacs with cider, it enables very rapid
 prototyping, testing, and debugging of the web application. It also provides a very compact high-level dispatch for HTTP requests.
-Although not covered in the scope of this paper, there is a destructuring syntax that is part of Clojure that provides for a very
+Although not in the scope of this paper, there is a destructuring syntax that is part of Clojure that provides for a very
 intuitive and terse parsing of requests.
 
 
@@ -425,7 +467,7 @@ experience that I believe will become dominant in the the coming years due to th
 In the following example a Couch database is made and populated,
 a view is written to query the database, and the view is then used
 to generate an html file with the database contents in an html table.
-Inspiratation for this example was found in the Couchdb Guide on view. \cite{CouchDB}
+Inspiratation for this example was found in the CouchDB Guide on view. \cite{CouchDB}
 #+begin_src clojure
 ;; Define database name
 (def fruitdb "http://localhost:5984/fruit")
@@ -466,6 +508,8 @@ Inspiratation for this example was found in the Couchdb Guide on view. \cite{Cou
                                   price-map)]])))
 #+end_src
 
+\newpage
+
 \begin{thebibliography}{99}
 \bibitem[Clojure, 2014]{Clojure:2014}
 http://clojure.org
@@ -493,5 +537,8 @@ https://github.com/weavejester/compojure-example
 
 \bibitem[modern-cljs,2014]{modern-cljs}
 https://github.com/magomimmo/modern-cljs
+
+\bibitem[on-lisp,2014]{on-lisp}
+http://www.paulgraham.com/onlisp.html
 
 \end{thebibliography}
