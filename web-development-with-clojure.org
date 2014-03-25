@@ -357,7 +357,6 @@ prototyping, testing, and debugging of the web application. It also provides a v
 Although not in the scope of this paper, there is a destructuring syntax that is part of Clojure that provides for a very
 intuitive and terse parsing of requests.
 
-
 ** Hiccup for HTML Generation
 Hiccup is a domain-specific langauge for creating HTML from Clojure data structures.
 It contains the =html= macro that takes a specifically-formatted vector and generates
@@ -459,7 +458,7 @@ see the Modern CLJS tutorials on GitHub \cite{modern-cljs}.
 * Conclusion
 Clojure and ClojureScript, though still young, offer promising changes to the software development process through easy concurrency via
 functional programming paradigms, full-featured macros, and interoperability with each other. They also offer a REPL-like or live-coding
-experience that I believe will become dominant in the the coming years due to the it's compatilibility with Agile and TDD principles.
+experience that I believe will become dominant in the the coming years due to its coherence with Agile and TDD principles.
 
 
 * Appendix 1
@@ -511,34 +510,51 @@ Inspiratation for this example was found in the CouchDB Guide on view. \cite{Cou
 \newpage
 
 \begin{thebibliography}{99}
-\bibitem[Clojure, 2014]{Clojure:2014}
-http://clojure.org
 
-\bibitem[Granger, 2014]{Granger}
-http://www.chris-granger.com/2012/02/26/connecting-to-your-creation/
+\bibitem[1]{CouchDB}
+Anon. Getting Started. \textit{CouchDB}. Retrieved March 24, 2014 from http://guide.couchdb.org/draft/tour.html.
 
-\bibitem[Bret Victor,2012]{Victor}
-CUSEC 2012. Accessed at http://vimeo.com/36579366
-
-\bibitem[Clutch, 2014]{Clutch}
-https://github.com/clojure-clutch/clutch\
-
-\bibitem[IBM, 2014]{IBM}
-http://www.ibm.com/developerworks/library/j-couchdb-clojure/index.html#toggle
-
-\bibitem[CouchDB,2014]{CouchDB}
-http://guide.couchdb.org/draft/tour.html
-
-\bibitem[Leiningen,2014]{lein}
-https://github.com/technomancy/leiningen
-
-\bibitem[Compojure,2014]{compojure-sample}
-https://github.com/weavejester/compojure-example
-
-\bibitem[modern-cljs,2014]{modern-cljs}
+\bibitem[2]{modern-cljs}
+Cosenza, M. Modern ClojureScript. \textit{GitHub}. Retrieved March 17, 2014 from
 https://github.com/magomimmo/modern-cljs
 
-\bibitem[on-lisp,2014]{on-lisp}
-http://www.paulgraham.com/onlisp.html
+\bibitem[3]{secrets}
+Dreisbach, Clinton. (2013). Secrets of Clojure Web Development. Lambda Jam 2013. Retrieved March 22, 2014 from http://clojurewebdev.com/
+
+\bibitem[4]{clojure-programming}
+Emerick, C. (2012). Clojure Programming. : O'Reilly Media.
+
+\bibitem[5]{Clutch}
+Emerick, C. Clutch. \textit{Github}. Retrieved March 18, 2014 from https://github.com/clojure-clutch/clutch.
+
+\bibitem[6]{on-lisp}
+Graham, Paul. (1993). On Lisp. : Prentice Hall. Retrieved March 24, 2014 from http://www.paulgraham.com/onlisp.html.
+
+\bibitem[7]{Granger}
+Granger, C. (2012, February 26). Connecting to your creation. \textit{Chris Granger}.
+Retrieved March 22, 2014 from http://www.chris-granger.com/2012/02/26/connecting-to-your-creation/.
+
+\bibitem[8]{lein}
+Hagelberg, P. leiningen. \textit{GitHub}. Retrieved March 24, 2014 from
+https://github.com/technomancy/leiningen.
+
+\bibitem[9]{Clojure:2014}
+Hickery, R. Clojure. \textit{Clojure}. Retrieved March 24, 2014 from http://clojure.org.
+
+\bibitem[10]{IBM}
+Senior, R. Using CouchDB with Clojure. \textit{IBM}. Retrieved March 13, 2014 from
+http://www.ibm.com/developerworks/library/j-couchdb-clojure/index.html.
+
+\bibitem[11]{up-and-running}
+Sierra, Stuart. (2012). Clojurescript: up and running. : O'Reilly Media.
+
+\bibitem[12]{web-dev-with-clojure}
+Sotnikov, Dmitri. (2014). Web Development with Clojure: Build Bulletproof Web Apps with Less Code.: The Pragmatic Programmers.
+
+\bibitem[13]{Victor}
+Victor, Bret. (2012). Inventing on Principle. CUSEC 2012. Retrived Feb. 23 from http://vimeo.com/36579366.
+
+\bibitem[14]{compojure-sample}
+Weavejester. Compojure-example. \textit{GitHub}. Retrieved March 24, 2014 from https://github.com/weavejester/compojure-example.
 
 \end{thebibliography}
