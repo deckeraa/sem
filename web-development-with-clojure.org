@@ -192,7 +192,7 @@ that is speeds and eases changes to library versions and selection;
 this should be a benefit for Agile development.
 
 ** Downsides to using Clojure
-Their are three major downsides to using Clojure for web development.
+There are three major downsides to using Clojure for web development.
 
 The first major downside is the relatively young age of Clojure as a langauge.
 Many of the libraries and frameworks are still in alpha or beta, and in some cases
@@ -202,6 +202,11 @@ eliminate that issue as bugs due to API changes can be dealt with immediately as
 Some Clojure libraries do not currently integrate with ClojureScript, and ClojureScript is not
 currently self-supporting, since it uses the Google Closure compiler.
 These issues should be fixed over time.
+
+Related to the young age of Clojure is the extremely young age of ClojureScript.
+It does not, at the time of this writing, support all the features of Clojure, such as concurrency support
+or ability to compile itself, since it uses the Google Closure (no relation to Clojure) compiler.
+This should also be fixed as ClojureScript matures.
 
 The second major downside is that Clojure runs on the Java Virtual Machine.
 While this greatly extends the reach of Clojure and provides it with a vast array of well-tested libraries,
@@ -349,12 +354,70 @@ However, using the Compojure library to decompose requests can greatly ease the 
 Template files can also still be used, with generated code inserted inside programatically.
 
 ** ClojureScript for Client-Side Scripting
-lein trampoline cljsbuild repl-rhino
+The most convenient way to manage ClojureScript builds is to use lein-cljsbuild, a Leiningen plugin.
+For example, make a new project by running =lein new test-cljs=.
 
-* Deploying Clojure
-** Heroku
+The first thing needed to work with lein-cljsbuild is to configure the plugin in =project.clj=
+#+begin_src clojure
+(defproject test-cljs "0.1.0-SNAPSHOT"
+  :description "FIXME: write description"
+  :url "http://example.com/FIXME"
+  :license {:name "Eclipse Public License"
+            :url "http://www.eclipse.org/legal/epl-v10.html"}
+  :plugins [[lein-cljsbuild "1.0.2"]]
+  :dependencies [[org.clojure/clojure "1.5.1"]
+                 [org.clojure/clojurescript "0.0-2173"]]
+  :cljsbuild {
+    :builds [{
+        ; The path to the top-level ClojureScript source directory:
+        :source-paths ["src-cljs"]
+        ; The standard ClojureScript compiler options:
+        ; (See the ClojureScript compiler documentation for details.)
+        :compiler {
+          :output-to "js/hello.js"  ; default: target/cljsbuild-main.js
+          :optimizations :whitespace
+          :pretty-print true}}]})
+#+end_src
+
+Note that the path to the build directory and the file to output is specified in the map associated with =:cljsbuild=.
+
+Then create a =cljs= file in =./src-cljs=:
+#+begin_src clojurescript
+(ns hello)
+
+(defn ^:export greet [n]
+  (str "Hello " n))
+#+end_src
+This creates a very simple function =greet= that takes an argument and returns a string.
+=^:export= is used to keep the JavaScript optimizer from mangling the function name during minification.
+
+Then test it out in an html file:
+#+begin_src html
+<html>
+  <head></head>
+  <body>
+    <script type="text/javascript" src="js/hello.js"></script>
+    <script>
+      alert(hello.greet("ClojureScript is working"));
+    </script>
+    <h1>File loaded succesfully. Do you see a dialog?</h1>
+  </body>
+</html>
+#+end_src
+
+Loading the file in a JavaScript-enabled web browser will result in a dialog box being displayed to the user.
+
+Currently compile times for ClojureScript are quite long.
+However, code can be developed quickly in a REPL by running =lein trampoline cljsbuild repl-rhino=.
+
+Code can be compiled to both Java and JavaScript by putting the code to be cross-compiled in an individual file and setting up
+the lein-cljsbuild plugin to compile those select functions into a JavaScript file. For in-depth examples of ClojureScript integration
+see the Modern CLJS tutorials on GitHub \cite{modern-cljs}.
 
 * Conclusion
+Clojure and ClojureScript, though still young, offer promising changes to the software development process through easy concurrency via
+functional programming paradigms, full-featured macros, and interoperability with each other. They also offer a REPL-like or live-coding
+experience that I believe will become dominant in the the coming years due to the it's compatilibility with Agile and TDD principles.
 
 
 * Appendix 1
@@ -428,5 +491,7 @@ https://github.com/technomancy/leiningen
 \bibitem[Compojure,2014]{compojure-sample}
 https://github.com/weavejester/compojure-example
 
+\bibitem[modern-cljs,2014]{modern-cljs}
+https://github.com/magomimmo/modern-cljs
 
 \end{thebibliography}
