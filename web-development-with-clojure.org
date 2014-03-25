@@ -359,12 +359,12 @@ intuitive and terse parsing of requests.
 
 ** Hiccup for HTML Generation
 Hiccup is a domain-specific langauge for creating HTML from Clojure data structures.
-It contains the =html= macro that takes a specifically-formatted vector and generates
+It contains the =html= and =html5= macros that takes a specifically-formatted vector and generate
 a string of HTML corresponding to that data.
 
 For example, imagine that you are building an e-commerce application that sells fruit,
 and you have a map of fruit prices: ={"apple" 0.50 "banana" 0.75}=.
-The following code uses =map= to create a list of table-row vectors
+The code below uses =map= to create a list of table-row vectors
 i.e. =([:tr [:td "banana"] [:td 0.75]] [:tr [:td "apple"] [:td 0.5]])=
 When =html= is used on this list it automatically expands the sequence to generate valid html.
 The =spit= function outputs the resulting html string to "table.html".
@@ -386,19 +386,20 @@ Table.html:
 (Linebreaks have been added to the output file for readability).
 
 Forms and form elements are also supported.
+Hiccup trivializes the transition from Clojure's native data structures to HTML, leading to a more compact development process.
 
-If one wished to dynamically generate all the web content for a site hiccup would certainly ease
-the process. Of course, one must take into account server load and related issues that come with dynamically-generated
-content. It should also be noted that dynamically generating all content may lead to maintenance issues;
-as well as require UI and web designers to read code.
-However, using the Compojure library to decompose requests can greatly ease the maintenance problem.
-Template files can also still be used, with generated code inserted inside programatically.
+# If one wished to dynamically generate all the web content for a site hiccup would certainly ease
+# the process. Of course, one must take into account server load and related issues that come with dynamically-generated
+# content. It should also be noted that dynamically generating all content may lead to maintenance issues;
+# as well as require UI and web designers to read code.
+# However, using the Compojure library to decompose requests can greatly ease the maintenance problem.
+# Template files can also still be used, with generated code inserted inside programatically.
 
 ** ClojureScript for Client-Side Scripting
 The most convenient way to manage ClojureScript builds is to use lein-cljsbuild, a Leiningen plugin.
 For example, make a new project by running =lein new test-cljs=.
 
-The first thing needed to work with lein-cljsbuild is to configure the plugin in =project.clj=
+The first thing needed to work with lein-cljsbuild is to configure the plugin in =project.clj=:
 #+begin_src clojure
 (defproject test-cljs "0.1.0-SNAPSHOT"
   :description "FIXME: write description"
@@ -458,21 +459,22 @@ see the Modern CLJS tutorials on GitHub \cite{modern-cljs}.
 * Conclusion
 Clojure and ClojureScript, though still young, offer promising changes to the software development process through easy concurrency via
 functional programming paradigms, full-featured macros, and interoperability with each other. They also offer a REPL-like or live-coding
-experience that I believe will become dominant in the the coming years due to its coherence with Agile and TDD principles.
+experience that I believe will become dominant in the coming years due to its coherence and synergy with Agile and TDD principles.
 
+
+\newpage
 
 * Appendix 1
 ** Extended Database Example
 In the following example a Couch database is made and populated,
 a view is written to query the database, and the view is then used
 to generate an html file with the database contents in an html table.
-Inspiratation for this example was found in the CouchDB Guide on view. \cite{CouchDB}
+Inspiratation for this example was found in the CouchDB Guide on views. \cite{CouchDB}
 #+begin_src clojure
 ;; Define database name
 (def fruitdb "http://localhost:5984/fruit")
 
-;; Create the database
-(clutch/create-database fruitdb)
+(clutch/create-database fruitdb) ;; Create the database
 
 ;; Populate the database with some prices
 (clutch/with-db fruitdb
