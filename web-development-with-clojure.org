@@ -71,6 +71,8 @@ This feature alone makes Clojure quite portable as the JVM and JavaScript are wi
 
 Clojure is a dynamically typed language that, though compiled, is highly interactive.
 According to the language webpage, "Every feature supported by Clojure is supported at runtime" \cite{Clojure:2014}.
+This is due to Clojure's heritage as a Lisp, all code is an expression and is written and stored the same way data is,
+making it easy for code to modify code and yield endless abstraction.
 
 The ability to compile the same Clojure code to Java bytecode and JavaScript makes an integrated codebase via
 code sharing between client-side and server-side code possible.
@@ -276,11 +278,11 @@ Be warned though, the API is still young and subject to change.
 As the library's README.md on Github states: "At the moment, you'll have
 to look at the source or introspect the docs once you've loaded Clutch
 up to get around the API. Proper API documentation (via autodoc or
-marginalia) coming soon."
+marginalia) coming soon" \cite{Clutch}.
 
 Another option for interacting with CouchDB is clj-http.
-clj-http is a lower-level library for interacting via http.
-It is much more mature then Clutch.
+clj-http is a lower-level library for interacting via http and
+is much more mature then Clutch.
 Because CouchDB is RESTful and uses HTTP in lieu of SQL the full functionality of
 CouchDB is available using clj-http.
 
@@ -422,8 +424,10 @@ The first thing needed to work with lein-cljsbuild is to configure the plugin in
           :optimizations :whitespace
           :pretty-print true}}]})
 #+end_src
-
-Note that the path to the build directory and the file to output is specified in the map associated with =:cljsbuild=.
+All the configuration occurs in the map associated with =:cljsbuild=.
+=:source-paths=  defines the directory where the ClojureScript is located relative to the project directory,
+and =:compiler= defines a map which in this case outputs the compiled JavaScript, which is pretty-printed and whitespace optimized,
+ to the file ="js/hello.js" off of the project directory.
 
 Then create a =cljs= file in =./src-cljs=:
 #+begin_src clojurescript
