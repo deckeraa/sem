@@ -54,7 +54,7 @@ client-side. Clojure can thus leverage all the power of the existing
 Java and JavaScript libraries, while adding its own libraries for a
 uniform functional programming paradigm. This as well as lazy evaluation
 provides for easier use of concurrency. Clojure also provides a
-live-coding experience, where running processess can be modified
+live-coding experience, where running processes can be modified
 on-the-fly to match changes being made to the code.
 
 # This article will focus on how using Clojure for web development will impact the software development process.
@@ -70,10 +70,12 @@ It can also be compiled to JavaScript as well as to bytecode targeting the CLR (
 This feature alone makes Clojure quite portable as the JVM and JavaScript are widely available platforms.
 
 Clojure is a dynamically typed language that, though compiled, is highly interactive.
-According to the language webpage, "Every feature supported by Clojure is supported at runtime." \cite{Clojure:2014}
+According to the language webpage, "Every feature supported by Clojure is supported at runtime" \cite{Clojure:2014}.
 
 The ability to compile the same Clojure code to Java bytecode and JavaScript makes an integrated codebase via
-code sharing between client-side and server-side code possible. One use case is input validation.
+code sharing between client-side and server-side code possible.
+Clojure designed to compile to JavaScript is referred to as ClojureScript.
+One use case is input validation.
 For security purposes validation must be performed on the server side, though it is also beneficial to validate on the
 client side in order to decrease latency and the number of calls to the server.
 In the past, validation code was written in both Java and JavaScript, and the validation logic needed to be kept synced between
@@ -90,8 +92,8 @@ Any change to the source code necessitates recompiling the affected objects and 
 
 With Clojure, the process being executed can be modified on the fly, drastically reducing time between testing iterations.
 A programmer and graphic designer by the name of Bret Victor touted the benefits of instantaneous feedback in his 2012 CUSEC talk
-called "Inventing on Principle"\cite{Victor}.
-One of his main ideas was an code editor with which a programmer could modify, in real-time, a video-game being programmed.
+called "Inventing on Principle" \cite{Victor}.
+One of his main ideas was a code editor with which a programmer could modify, in real-time, a video-game being programmed.
 Shortly after Victor gave his speech, another programmer by the name of Chris Granger implemented the idea using Clojure,
 which serves to show the power of Clojure with regards to run-time modification.
 
@@ -178,7 +180,7 @@ defined by =defmacro=. The resulting code is then evaluated as normal.
 This grants the langauge the ability to re-define its own evaluation at runtime, which removes the limit on abstraction,
 rendering external pre-processors unnecessary.
 
-The affects the software process by simplifying the software stack. Everything needed to satisfy DRY principles is
+This affects the software process by simplifying the software stack. Everything needed to satisfy DRY principles is
 available in the language; all abstractions can be handled in the code, and the code base can safely be built from the bottom up.
 For a much more detailed discussion of the use of macros, see _On Lisp_ by Paul Graham \cite{on-lisp}.
 
@@ -186,7 +188,7 @@ For a much more detailed discussion of the use of macros, see _On Lisp_ by Paul 
 While Clojure does not technically come with an integrated build system, the /de
 facto/ standard among Clojure developers is the excellent Leiningen
 tool.  Leiningen can either be installed via a package manager or by
-downloading the =lein= script from the project page. \cite{lein}
+downloading the =lein= script from the project page \cite{lein}.
 
 Leiningen acts as a package manager for a Clojure project by
 automatically handling dependencies and compilation.
@@ -230,13 +232,13 @@ Be warned that any currently running REPLs in the project will need
 restarted before they see newly fetched libraries on the classpath.
 
 The main impact of Leiningen on the software development process is
-that is speeds and streamlines changes to library versions and selection;
+that it speeds and streamlines changes to library versions and selection;
 this should be a benefit for Agile development.
 
 ** Downsides to using Clojure
 There are three major downsides to using Clojure for web development.
 
-The first major downside is the relatively young age of Clojure as a langauge.
+The first major downside is the relatively young age of Clojure as a langauge \cite{clojure-weaknesses}.
 Many of the libraries and frameworks are still in alpha or beta, and in some cases
 documentation is scarce or incomplete.
 Code also happens to become obsolete rapidly, though continuous integration testing will
@@ -351,7 +353,7 @@ Here =index-page= is defined as a function with two parameters, =id= and =foo=.
 An HTML string is returned using the =html5= macro, which is part of the Hiccup library
 detailed in the next section.
 
-The impact of the Compojure library on the software development process is that it serves as an interace between an
+The impact of the Compojure library on the software development process is that it serves as an interface between an
 HTTP API and functions inside of code. Combined with a REPL-enabled editor like Emacs with cider, it enables very rapid
 prototyping, testing, and debugging of the web application. It also provides a very compact high-level dispatch for HTTP requests.
 Although not in the scope of this paper, there is a destructuring syntax that is part of Clojure that provides for a very
@@ -469,7 +471,7 @@ experience that I believe will become dominant in the coming years due to its co
 In the following example a Couch database is made and populated,
 a view is written to query the database, and the view is then used
 to generate an html file with the database contents in an html table.
-Inspiratation for this example was found in the CouchDB Guide on views. \cite{CouchDB}
+Inspiratation for this example was found in the CouchDB Guide on views \cite{CouchDB}.
 #+begin_src clojure
 ;; Define database name
 (def fruitdb "http://localhost:5984/fruit")
@@ -558,5 +560,8 @@ Victor, Bret. (2012). Inventing on Principle. CUSEC 2012. Retrived Feb. 23 from 
 
 \bibitem[14]{compojure-sample}
 Weavejester. Compojure-example. \textit{GitHub}. Retrieved March 24, 2014 from https://github.com/weavejester/compojure-example.
+
+\bibitem[15]{clojure-weaknesses}
+Kristjánsson, Gísli. Why we are choosing Clojure as our main programming language. \textit{appvise.me}. Retrieved April 16, 2014 http://appvise.me/2011/03/why-we-are-choosing-clojure-as-our-main-programming-language/
 
 \end{thebibliography}
