@@ -11,38 +11,40 @@
 #+LATEX: \setlength{\headsep}{20pt} %so page numbers dont clash
 #+LATEX: \pagestyle{myheadings} %page numbers
 
-\begin{titlepage}
+#+LATEX: \begin{minipage}[h]{\textwidth}
+#+LATEX: \begin{titlepage}
 
-\newcommand{\HRule}{\rule{\linewidth}{0.5mm}} % Defines a new command for the horizontal lines, change thickness here
+#+LATEX: \newcommand{\HRule}{\rule{\linewidth}{0.5mm}} % Defines a new command for the horizontal lines, change thickness here
 
-\center % Center everything on the page
-\linespread{2} % Line spacing
-\textsc{\LARGE University of Wisconsin Platteville}\\[1.5cm] % Name of your university/college
-\textsc{\Large SE411}\\[0.5cm] % Major heading such as course name
-\textsc{\large Senior Seminar}\\[0.5cm] % Minor heading such as course title
-\HRule \\[0.4cm]
-{\huge \bfseries Web Development With Clojure}\\[0.4cm] % Title of your document
-\HRule \\[1.5cm]
+#+LATEX: \center % Center everything on the page
+#+LATEX: \linespread{2} % Line spacing
+#+LATEX: \textsc{\LARGE University of Wisconsin Platteville}\\[1.5cm] % Name of your university/college
+#+LATEX: \textsc{\Large SE411}\\[0.5cm] % Major heading such as course name
+#+LATEX: \textsc{\large Senior Seminar}\\[0.5cm] % Minor heading such as course title
+#+LATEX: \HRule \\[0.4cm]
+#+LATEX: {\huge \bfseries Web Development With Clojure}\\[0.4cm] % Title of your document
+#+LATEX: \HRule \\[1.5cm]
 
-\begin{minipage}{0.4\textwidth}
-\center
-\large
-Aaron Decker % Your name
-\\
-{\large \today}\\[3cm] % Date, change the \today to a set date if you want to be precise
-\end{minipage}
-%\begin{minipage}{0.4\textwidth}
-%\begin{flushright} \large
-%\emph{Supervisor:} \\
-%Dr. James \textsc{Smith} % Supervisor's Name
-%\end{flushright}
-%\end{minipage}\\[4cm]
+#+LATEX: \begin{minipage}{0.4\textwidth}
+#+LATEX: \center
+#+LATEX: \large
+#+LATEX: Aaron Decker % Your name
+#+LATEX: \\
+#+LATEX: {\large \today}\\[3cm] % Date, change the \today to a set date if you want to be precise
+#+LATEX: \end{minipage}
+#+LATEX: %\begin{minipage}{0.4\textwidth}
+#+LATEX: %\begin{flushright} \large
+#+LATEX: %\emph{Supervisor:} \\
+#+LATEX: %Dr. James \textsc{Smith} % Supervisor's Name
+#+LATEX: %\end{flushright}
+#+LATEX: %\end{minipage}\\[4cm]
 
-%\includegraphics{Logo}\\[1cm] % Include a department/university logo - this will require the graphicx package
+#+LATEX: %\includegraphics{Logo}\\[1cm] % Include a department/university logo - this will require the graphicx package
 
-\vfill % Fill the rest of the page with whitespace
+# \vfill % Fill the rest of the page with whitespace
 
-\end{titlepage}
+#+LATEX: \end{titlepage}
+#+LATEX: \end{minipage}
 
 * Abstract
 Web development currently consists of several distinct technologies;
@@ -60,6 +62,8 @@ on-the-fly to match changes being made to the code.
 # This article will focus on how using Clojure for web development will impact the software development process.
 # No preference will be given to a specific model, although, as will be demonstrated, Clojure holds the most
 # benefit for a methodology centered on iteration such as Agile.
+
+\newpage
 
 * Clojure: an Overview
 ** What is Clojure
