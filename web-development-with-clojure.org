@@ -1,6 +1,7 @@
 #+TITLE:
 #+LATEX_HEADER: \usepackage{fancyhdr}
 #+LATEX_HEADER: \usepackage{amsmath}
+#+LATEX_HEADER: \usepackage{titlesec}
 #+LATEX_HEADER: \usepackage{fullpage}
 # #+LATEX_HEADER: \usepackage{indentfirst}
 #+OPTIONS: toc:nil
@@ -10,6 +11,14 @@
 #+LATEX: \addtolength{\parskip}{\baselineskip}
 #+LATEX: \setlength{\headsep}{20pt} %so page numbers dont clash
 #+LATEX: \pagestyle{myheadings} %page numbers
+
+#+LATEX: \titlespacing{\section}{0pt}{1em}{0pt}
+#+LATEX: \titlespacing{\subsection}{0pt}{1em}{0pt}
+#+LATEX: \titlespacing{\subsection}{0pt}{1em}{0pt}
+
+#+LATEX: \widowpenalty=300
+#+LATEX: \clubpenalty=300
+#+LATEX: \setlength{\parskip}{3ex plus 2ex minus 2ex}
 
 #+LATEX: \begin{minipage}[h]{\textwidth}
 #+LATEX: \begin{titlepage}
